@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+.tools/
+
+# Build output
+dist/
+dist-ssr/
+*.local
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vite
+.vite/
+
+# TypeScript compiled output in src
+src/**/*.js
+!src/**/*.config.js
+*.tsbuildinfo

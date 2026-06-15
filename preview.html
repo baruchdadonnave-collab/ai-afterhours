@@ -1,0 +1,1106 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI AfterHours | Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --primary: #5c2b82;
+        --accent: #4ecdc4;
+        --bg: #181826;
+        --deep: #12121e;
+        --surface: #222238;
+        --hi: #f0eef8;
+        --lo: #9a96b4;
+        --site-header-height: 80px;
+        --section-blend-height: 36vh;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        min-width: 320px;
+        background:
+          radial-gradient(circle at 12% 8%, rgba(78,205,196,.05), transparent 26rem),
+          radial-gradient(ellipse 90% 60% at 50% -10%, rgba(92,43,130,.1), transparent 55%),
+          var(--deep);
+        color: var(--hi);
+        font-family: Heebo, Inter, system-ui, sans-serif;
+      }
+      a { color: inherit; text-decoration: none; }
+      .container { width: min(1160px, calc(100% - 40px)); margin: auto; }
+      header {
+        position: relative; z-index: 10; isolation: isolate;
+      }
+      header::before {
+        content: ""; pointer-events: none; position: absolute; z-index: -1;
+        inset-inline: 0; top: 0; height: calc(var(--site-header-height) + 56px);
+        background: linear-gradient(
+          180deg,
+          #12121e 0%,
+          rgba(18,18,30,.96) 18%,
+          rgba(18,18,30,.78) 38%,
+          rgba(18,18,30,.48) 58%,
+          rgba(18,18,30,.2) 78%,
+          transparent 100%
+        );
+        backdrop-filter: blur(14px);
+      }
+      header::after {
+        content: ""; pointer-events: none; position: absolute; z-index: -1;
+        inset-inline: 0; top: 0; height: calc(var(--site-header-height) + 72px);
+        background: radial-gradient(ellipse 90% 140% at 60% -10%, rgba(92,43,130,.28) 0%, transparent 72%);
+      }
+      header .container { height: var(--site-header-height); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+      .logo { display: flex; align-items: center; background: transparent; }
+      .logo-img { display: block; height: 72px; width: auto; min-width: 64px; object-fit: contain; }
+      nav { display: flex; gap: 22px; color: var(--lo); font-size: 14px; }
+      nav a:hover { color: var(--hi); }
+      header .btn { padding: 8px 16px; font-size: 14px; }
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        border-radius: 10px; padding: 14px 28px; border: 0;
+        background: linear-gradient(135deg, #2eb8b0 0%, #4ecdc4 32%, #5c4a9a 68%, #7b3fad 100%); color: var(--hi);
+        box-shadow: 0 0 16px rgba(78, 205, 196, 0.28), 0 0 20px rgba(92, 43, 130, 0.32);
+        font: 500 16px Heebo; cursor: pointer; transition: .2s;
+      }
+      .btn:hover { filter: brightness(1.1); box-shadow: 0 0 20px rgba(78, 205, 196, 0.4), 0 0 28px rgba(92, 43, 130, 0.45); }
+      .btn.secondary { background: transparent; color: var(--lo); border: 1px solid rgba(255,255,255,.15); }
+      .btn.secondary:hover { color: var(--hi); border-color: rgba(78,205,196,.4); box-shadow: none; }
+      section { padding: 100px 0; }
+      .hero {
+        position: relative; overflow-x: clip; overflow-y: visible; text-align: center; background: var(--deep);
+        background-image:
+          linear-gradient(to bottom, transparent 0%, transparent calc(100% - var(--section-blend-height)), #111119 calc(100% - 28vh), #0e0e16 calc(100% - 20vh), #0a0a10 calc(100% - 12vh), #07070b calc(100% - 6vh), #050505 100%),
+          radial-gradient(ellipse at 60% 0%, rgba(92,43,130,.28) 0%, transparent 68%);
+        padding: 48px 0 5rem; min-height: auto;
+      }
+      @media (min-width: 768px) {
+        .hero { padding-bottom: 7rem; }
+      }
+      .hero:before {
+        content: ""; position: absolute; inset: 0; opacity: .03;
+        background-image: radial-gradient(rgba(255,255,255,.18) 1px, transparent 1px);
+        background-size: 24px 24px; mask-image: linear-gradient(to bottom, black, transparent 72%);
+      }
+      .hero > .container {
+        position: relative; display: flex; flex-direction: column;
+        min-height: auto;
+      }
+      .hero-content { flex-shrink: 0; }
+      .hero-mockup-stage { margin-top: clamp(2rem, 5vw, 3rem); width: 100%; padding-top: 0; padding-bottom: clamp(3rem, 7vw, 5rem); overflow: visible; }
+      .hero-mockup-perspective { perspective: 1400px; perspective-origin: 50% 100%; max-width: 72rem; margin: 0 auto; transform-style: preserve-3d; overflow: visible; }
+      .hero-mockup-tilt {
+        transform-origin: 50% 100%;
+        transform: rotateX(-14deg);
+        transform-style: preserve-3d;
+        transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .hero-mockup-stage:hover .hero-mockup-tilt { transform: rotateX(-10deg); }
+      .badge {
+        display: inline-flex; border-radius: 999px; padding: 8px 16px;
+        color: #c09ae0; border: 1px solid rgba(92,43,130,.4); background: rgba(92,43,130,.2);
+        font-size: 13px;
+      }
+      h1 { margin: 24px auto 0; max-width: 760px; font-size: clamp(40px, 7vw, 64px); line-height: 1.1; letter-spacing: -.02em; }
+      h2 { margin: 0; font-size: clamp(28px, 4vw, 40px); line-height: 1.2; letter-spacing: -.01em; }
+      h3 { margin: 0; font-size: 22px; font-weight: 500; line-height: 1.35; }
+      p { color: var(--lo); font-size: 17px; line-height: 1.75; }
+      .lead { max-width: 680px; margin: 22px auto 0; font-size: 20px; line-height: 1.65; }
+      .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 34px; }
+      .logos { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 44px; color: var(--lo); }
+      .pill { border-radius: 999px; border: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.03); padding: 8px 20px; }
+      .mock {
+        position: relative; isolation: isolate; overflow: hidden;
+        border: 1px solid rgba(255,255,255,.1); border-top-color: rgba(255,255,255,.24);
+        border-radius: 22px;
+        background: rgba(18,20,28,.96); padding: 12px;
+        box-shadow: 0 50px 100px -30px rgba(0,0,0,.85), 0 24px 48px -24px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.12);
+        backface-visibility: hidden;
+      }
+      .mock::before {
+        content: ""; position: absolute; z-index: 1; left: 6%; right: 6%; top: 0; height: 1px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, transparent, rgba(78,205,196,.22) 18%, rgba(192,154,224,.55) 50%, rgba(78,205,196,.22) 82%, transparent);
+        box-shadow: 0 -10px 28px rgba(92,43,130,.28), 0 -4px 14px rgba(78,205,196,.14);
+      }
+      .mock::after {
+        content: ""; position: absolute; z-index: 0; inset-inline: 0; top: 0; height: 48px;
+        border-radius: 22px 22px 0 0;
+        background: linear-gradient(to bottom, rgba(92,43,130,.12), rgba(78,205,196,.04) 40%, transparent);
+      }
+      .screen { border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,.07); background: var(--deep); text-align: right; }
+      .chrome { display: flex; gap: 8px; padding: 14px; border-bottom: 1px solid rgba(255,255,255,.07); }
+      .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+      .screen-body { display: grid; grid-template-columns: .7fr 1.3fr; gap: 16px; padding: 20px; }
+      .item, .panel, .card { border: 1px solid rgba(255,255,255,.07); border-radius: 16px; background: var(--surface); }
+      .item { padding: 16px; margin-bottom: 12px; background: rgba(255,255,255,.03); }
+      .item.active { background: rgba(92,43,130,.2); }
+      .panel { padding: 22px; background: var(--bg); }
+      .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+      .card { padding: 28px 24px; transition: .2s; }
+      .card:hover { transform: translateY(-3px); border-color: rgba(92,43,130,.4); box-shadow: 0 0 0 1px rgba(92,43,130,.5); }
+      .icon { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 12px; background: rgba(92,43,130,.15); color: var(--accent); margin-bottom: 18px; }
+      .num { font-size: 52px; line-height: 1; font-weight: 700; }
+      .num span { color: var(--accent); }
+      .deep { background: var(--deep); }
+      .title { text-align: center; max-width: 760px; margin: 0 auto 48px; }
+      .eyebrow { color: var(--accent); font-size: 13px; letter-spacing: .02em; margin-bottom: 10px; }
+      #demo .eyebrow { font-size: 14px; }
+      #demo h2 { font-size: clamp(30px, 4.2vw, 42px); }
+      #demo p { font-size: 18px; }
+      .showcase { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+      .check { color: var(--accent); margin-left: 10px; }
+      .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 32px; border-radius: 16px; border: 1px solid rgba(255,255,255,.07); background: rgba(42,42,62,.6); text-align: center; }
+      .form { padding: 32px; }
+      label { display: block; margin: 0 0 6px; color: var(--lo); font-size: 13px; }
+      input, select {
+        width: 100%; height: 48px; margin-bottom: 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,.1);
+        background: var(--bg); color: var(--hi); padding: 12px 16px; font: inherit;
+      }
+      .pricing { display: none; }
+      .thanks { display: none; min-height: calc(100vh - var(--site-header-height)); text-align: center; background: var(--deep); }
+      .route-pricing .home, .route-pricing .thanks { display: none; }
+      .route-pricing .pricing { display: block; }
+      .route-thank-you .home, .route-thank-you .pricing { display: none; }
+      .route-thank-you .thanks { display: block; }
+      footer { padding: 32px 0; background: var(--deep); border-top: 1px solid rgba(255,255,255,.06); color: var(--lo); }
+      footer .container { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+      @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+      .fade { animation: fadeUp .5s ease-out both; }
+      .live-demo { position: relative; z-index: 2; max-width: 72rem; margin: 5rem auto 0; padding: 0 8px 2.5rem; }
+      @media (min-width: 768px) { .live-demo { margin-top: 7rem; padding-bottom: 3.5rem; } }
+      .live-demo-grid { display: grid; gap: 2.5rem; align-items: start; }
+      @media (min-width: 768px) { .live-demo-grid { grid-template-columns: 1.05fr .95fr; gap: 3.5rem; } }
+      .live-demo-copy { text-align: right; }
+      .live-demo-copy h2 { font-size: clamp(32px, 4vw, 44px); font-weight: 600; line-height: 1.2; margin: 0; }
+      .live-chat {
+        position: relative; isolation: isolate; overflow: hidden; border-radius: 16px;
+        border: 1px solid rgba(78,205,196,.25); background: #12141c;
+        box-shadow: 0 0 0 1px rgba(78,205,196,.12), 0 -4px 28px rgba(78,205,196,.22), 0 0 32px rgba(78,205,196,.18), 0 0 56px rgba(78,205,196,.1), 0 24px 48px -20px rgba(0,0,0,.65);
+        animation: liveChatGlow 2.4s ease-in-out infinite;
+      }
+      .live-chat::before {
+        pointer-events: none; position: absolute; z-index: 1; left: 8%; right: 8%; top: 0; height: 1px; border-radius: 999px; content: "";
+        background: linear-gradient(90deg, transparent, rgba(78,205,196,.35) 18%, rgba(78,205,196,.75) 50%, rgba(78,205,196,.35) 82%, transparent);
+        box-shadow: 0 0 18px rgba(78,205,196,.45);
+      }
+      .live-chat::after {
+        pointer-events: none; position: absolute; z-index: 0; inset: 0; border-radius: inherit; content: "";
+        box-shadow: inset 0 0 0 1px rgba(78,205,196,.18), inset 0 1px 0 rgba(78,205,196,.28);
+      }
+      .live-chat-head { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,.07); padding: 16px 20px; }
+      .live-chat-body { display: flex; flex-direction: column; gap: 12px; padding: 20px; min-height: 220px; max-height: min(320px, 52vh); overflow-y: auto; scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none; }
+      .live-chat-body::-webkit-scrollbar { display: none; width: 0; height: 0; background: transparent; }
+      .live-typing { display: flex; align-items: center; gap: 6px; border-radius: 16px; padding: 14px 16px; animation: liveBubblePop .42s cubic-bezier(.22,1,.36,1) both; }
+      .live-typing.customer { align-self: flex-end; border-bottom-right-radius: 6px; background: #2d2e3d; }
+      .live-typing.agent { align-self: flex-start; border-bottom-left-radius: 6px; background: #1f2128; }
+      .live-typing-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(240,238,248,.55); animation: liveTypingBounce 1.15s ease-in-out infinite; }
+      .live-typing-dot:nth-child(2) { animation-delay: .16s; }
+      .live-typing-dot:nth-child(3) { animation-delay: .32s; }
+      @keyframes liveTypingBounce { 0%,60%,100% { opacity: .4; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-4px); } }
+      .live-badge {
+        display: inline-flex; align-items: center; gap: 8px; border-radius: 999px;
+        border: 1px solid rgba(78,205,196,.3); background: rgba(78,205,196,.1); color: #4ecdc4;
+        font-size: 12px; font-weight: 500; padding: 4px 12px;
+      }
+      .live-dot {
+        width: 8px; height: 8px; border-radius: 50%; background: #4ecdc4;
+      }
+      @keyframes liveChatGlow {
+        0%, 100% { box-shadow: 0 0 0 1px rgba(78,205,196,.1), 0 -4px 24px rgba(78,205,196,.18), 0 0 28px rgba(78,205,196,.14), 0 0 48px rgba(78,205,196,.08), 0 24px 48px -20px rgba(0,0,0,.65); }
+        50% { box-shadow: 0 0 0 1px rgba(78,205,196,.16), 0 -6px 36px rgba(78,205,196,.32), 0 0 44px rgba(78,205,196,.24), 0 0 72px rgba(78,205,196,.14), 0 24px 48px -20px rgba(0,0,0,.65); }
+      }
+      .live-bubble { max-width: 88%; border-radius: 16px; padding: 12px 16px; font-size: 15px; line-height: 1.75; animation: liveBubblePop .42s cubic-bezier(.22,1,.36,1) both; }
+      @keyframes liveBubblePop { from { opacity: 0; transform: translateY(14px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+      .live-bubble.customer { align-self: flex-end; border-bottom-right-radius: 6px; background: #2d2e3d; }
+      .live-bubble.agent { align-self: flex-start; border-bottom-left-radius: 6px; background: #1f2128; }
+      .live-bubble.agent.success { background: #1a2e2e; }
+      @media (max-width: 800px) {
+        nav { display: none; }
+        .grid, .screen-body, .showcase, .stats { grid-template-columns: 1fr; }
+        section { padding: 80px 0; }
+      }
+
+      .testimonial-wheel {
+        position: relative;
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 8px 0 48px;
+        perspective: 1400px;
+        user-select: none;
+        touch-action: pan-y;
+      }
+      .testimonial-wheel-stage {
+        position: relative;
+        display: grid;
+        place-items: center;
+        height: 390px;
+        transform-style: preserve-3d;
+        overflow: visible;
+      }
+      .testimonial-wheel-card {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 318px;
+        aspect-ratio: 1;
+        padding: 30px 28px 26px;
+        border: 1px solid rgba(255,255,255,.08);
+        border-radius: 18px;
+        background:
+          radial-gradient(circle at 50% 0%, rgba(92,43,130,.25), transparent 58%),
+          linear-gradient(145deg, rgba(39,39,61,.98), rgba(31,31,50,.98));
+        box-shadow: 0 28px 80px -36px rgba(0,0,0,.95), inset 0 1px 0 rgba(255,255,255,.08);
+        opacity: 0;
+        pointer-events: none;
+        transform: translate3d(0, 24px, -320px) scale(.62);
+        transition:
+          transform 900ms cubic-bezier(.22,1,.36,1),
+          opacity 650ms ease,
+          filter 650ms ease,
+          border-color 650ms ease,
+          box-shadow 650ms ease;
+        will-change: transform, opacity;
+      }
+      .testimonial-wheel-card.active {
+        z-index: 5;
+        opacity: 1;
+        pointer-events: auto;
+        border-color: rgba(78,205,196,.42);
+        transform: translate3d(0, -10px, 150px) rotateY(0deg) scale(1.16);
+        box-shadow:
+          0 38px 90px -34px rgba(0,0,0,.96),
+          0 0 0 1px rgba(78,205,196,.16),
+          0 0 44px rgba(78,205,196,.16);
+      }
+      .testimonial-wheel-card.prev {
+        z-index: 3;
+        opacity: .62;
+        filter: saturate(.76) brightness(.82);
+        transform: translate3d(-96%, 14px, -130px) rotateY(27deg) scale(.82);
+        pointer-events: auto;
+        cursor: pointer;
+      }
+      .testimonial-wheel-card.next {
+        z-index: 3;
+        opacity: .62;
+        filter: saturate(.76) brightness(.82);
+        transform: translate3d(96%, 14px, -130px) rotateY(-27deg) scale(.82);
+        pointer-events: auto;
+        cursor: pointer;
+      }
+      @media (hover: hover) {
+        .testimonial-wheel-card.prev:hover,
+        .testimonial-wheel-card.next:hover {
+          opacity: .78;
+          filter: saturate(.88) brightness(.9);
+        }
+      }
+      .testimonial-wheel-card.hidden-card {
+        z-index: 1;
+        opacity: 0;
+        transform: translate3d(0, 34px, -360px) scale(.58);
+      }
+      .testimonial-wheel-card p {
+        margin: 0;
+        color: rgba(240,238,248,.82);
+        font-size: 18px;
+        line-height: 1.75;
+        text-align: center;
+      }
+      .testimonial-wheel-card.active p {
+        color: var(--hi);
+        font-size: 20px;
+      }
+      .testimonial-person {
+        margin-top: 26px;
+        border-top: 1px solid rgba(255,255,255,.07);
+        padding-top: 20px;
+        text-align: center;
+      }
+      .testimonial-person h3 {
+        font-weight: 700;
+        color: var(--hi);
+      }
+      .testimonial-person small {
+        display: block;
+        margin-top: 10px;
+        color: var(--lo);
+        font-size: 15px;
+      }
+      .testimonial-wheel-dots {
+        position: absolute;
+        inset-inline: 0;
+        bottom: 10px;
+        display: flex;
+        justify-content: center;
+        gap: 9px;
+      }
+      .testimonial-wheel-dot {
+        width: 8px;
+        height: 8px;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(255,255,255,.18);
+        cursor: pointer;
+        transition: .22s ease;
+      }
+      .testimonial-wheel-dot.active {
+        width: 32px;
+        background: var(--accent);
+        box-shadow: 0 0 18px rgba(78,205,196,.45);
+      }
+      @media (max-width: 800px) {
+        .testimonial-wheel { padding-inline: 0; padding-bottom: 48px; }
+        .testimonial-wheel-stage { height: 350px; overflow: hidden; }
+        .testimonial-wheel-card { width: min(76vw, 286px); padding: 26px 22px 24px; }
+        .testimonial-wheel-card.active { transform: translate3d(0, -8px, 110px) scale(1); }
+        .testimonial-wheel-card.prev { transform: translate3d(-58%, 14px, -130px) rotateY(23deg) scale(.72); opacity: .46; pointer-events: auto; cursor: pointer; }
+        .testimonial-wheel-card.next { transform: translate3d(58%, 14px, -130px) rotateY(-23deg) scale(.72); opacity: .46; pointer-events: auto; cursor: pointer; }
+        .testimonial-wheel-card p, .testimonial-wheel-card.active p { font-size: 16px; line-height: 1.65; }
+        .testimonial-wheel-dots { bottom: 0; }
+      }
+
+      /* ROADMAP JOURNEY */
+      .roadmap-section {
+        position: relative;
+        background: #050505;
+        color: #f4f4f5;
+        height: 440vh;
+        padding: 0;
+      }
+      .roadmap-section-lead {
+        height: clamp(120px, 14vh, 200px);
+        flex-shrink: 0;
+      }
+      .roadmap-sticky {
+        position: sticky; top: 0; height: 100vh; width: 100%;
+        overflow: visible;
+        background: #050505;
+      }
+      #testimonials {
+        background-color: var(--deep);
+        background-image:
+          linear-gradient(to bottom, #050505 0%, #07070b 72px, #0a0a10 144px, #0e0e16 216px, #111119 288px, var(--deep) 360px),
+          radial-gradient(circle at 12% 14%, rgba(78,205,196,.05), transparent 26rem),
+          radial-gradient(ellipse 90% 60% at 50% 14%, rgba(92,43,130,.08), transparent 55%);
+      }
+      .roadmap-ambient {
+        position: absolute; inset: 0; pointer-events: none; z-index: 1;
+        background:
+          radial-gradient(circle at 50% 62%, rgba(78,205,196,.14), transparent 55%),
+          radial-gradient(circle at 82% 18%, rgba(110,224,217,.07), transparent 45%),
+          radial-gradient(circle at 16% 80%, rgba(46,184,176,.06), transparent 50%);
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.35) 12vh, black var(--section-blend-height));
+        mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.35) 12vh, black var(--section-blend-height));
+      }
+      .roadmap-grid {
+        position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: .7;
+        background-image:
+          linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+        background-size: 80px 80px;
+        -webkit-mask-image:
+          linear-gradient(to bottom, transparent 0%, black var(--section-blend-height)),
+          radial-gradient(ellipse 100% 75% at 50% 55%, black 25%, transparent 80%);
+        -webkit-mask-composite: source-in;
+        mask-image:
+          linear-gradient(to bottom, transparent 0%, black var(--section-blend-height)),
+          radial-gradient(ellipse 100% 75% at 50% 55%, black 25%, transparent 80%);
+        mask-composite: intersect;
+      }
+      .roadmap-vignette {
+        position: absolute; inset: 0; pointer-events: none; z-index: 1;
+        background: radial-gradient(ellipse 80% 60% at 50% 50%, transparent 50%, rgba(0,0,0,.75) 100%);
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.4) 10vh, black var(--section-blend-height));
+        mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.4) 10vh, black var(--section-blend-height));
+      }
+      .roadmap-stage {
+        position: relative; z-index: 10; height: 100%; display: flex;
+        flex-direction: column; justify-content: flex-start;
+        padding-top: clamp(72px, 10vh, 130px);
+      }
+      .roadmap-texts {
+        position: relative; max-width: 720px; margin: 0 auto;
+        text-align: center; min-height: 260px; width: 100%;
+      }
+      .roadmap-text-block {
+        position: absolute; inset: 0; display: flex; flex-direction: column;
+        align-items: center; opacity: 0; pointer-events: none;
+        transition: opacity 300ms ease;
+      }
+      .roadmap-text-block.active { opacity: 1; pointer-events: auto; }
+      .roadmap-text-block .roadmap-eyebrow,
+      .roadmap-text-block .roadmap-title,
+      .roadmap-text-block .roadmap-desc,
+      .roadmap-text-block .roadmap-progress-bar {
+        opacity: 0; transform: translateY(20px); filter: blur(10px);
+        transition: opacity 720ms cubic-bezier(.22,1,.36,1),
+                    transform 720ms cubic-bezier(.22,1,.36,1),
+                    filter 720ms cubic-bezier(.22,1,.36,1);
+      }
+      .roadmap-text-block.active .roadmap-eyebrow {
+        opacity: 1; transform: none; filter: none; transition-delay: 40ms;
+      }
+      .roadmap-text-block.active .roadmap-title {
+        opacity: 1; transform: none; filter: none; transition-delay: 140ms;
+      }
+      .roadmap-text-block.active .roadmap-desc {
+        opacity: 1; transform: none; filter: none; transition-delay: 260ms;
+      }
+      .roadmap-text-block.active .roadmap-progress-bar {
+        opacity: 1; transform: none; filter: none; transition-delay: 360ms;
+      }
+      .roadmap-eyebrow {
+        margin: 0; font-family: Inter, Heebo, system-ui, sans-serif;
+        text-transform: uppercase; letter-spacing: .32em; font-size: 11px;
+        font-weight: 500; color: #4ecdc4;
+      }
+      .roadmap-title {
+        margin: 14px 0 0; font-size: clamp(32px, 5.4vw, 64px);
+        font-weight: 700; line-height: 1.06; letter-spacing: -.025em;
+        color: #fff;
+      }
+      .roadmap-desc {
+        margin: 16px 0 0; font-size: clamp(15px, 1.55vw, 19px);
+        line-height: 1.7; color: rgba(255,255,255,.6); max-width: 36rem;
+      }
+      .roadmap-progress-bar {
+        display: flex; align-items: center; gap: 8px; margin-top: 28px;
+      }
+      .roadmap-progress-tick {
+        display: block; width: 26px; height: 2px; border-radius: 999px;
+        background: rgba(255,255,255,.12);
+        transition: background 420ms ease, box-shadow 420ms ease, width 420ms ease;
+      }
+      .roadmap-progress-tick.on {
+        background: #4ecdc4; width: 36px;
+        box-shadow: 0 0 12px rgba(78,205,196,.65), 0 0 28px rgba(78,205,196,.35);
+      }
+      .roadmap-svg-wrap {
+        position: relative; width: 100%; max-width: 1180px;
+        margin: clamp(24px, 4vw, 48px) auto 0;
+      }
+      .roadmap-svg-wrap::before {
+        pointer-events: none; content: ""; position: absolute;
+        inset: -10% -4%; z-index: -1; filter: blur(8px);
+        background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(78,205,196,.10), transparent 70%);
+      }
+      .roadmap-svg { display: block; width: 100%; height: auto; }
+      .roadmap-node-inner {
+        transform: scale(1);
+        transform-box: fill-box; transform-origin: center;
+        transition: transform 480ms cubic-bezier(.22,1,.36,1);
+      }
+      .roadmap-node.is-active .roadmap-node-inner { transform: scale(1.1); }
+      .roadmap-node-card {
+        fill: rgba(14,14,14,.95); stroke: rgba(255,255,255,.07); stroke-width: 1.5;
+        transition: fill 420ms ease, stroke 420ms ease, filter 420ms ease;
+        filter: drop-shadow(0 6px 16px rgba(0,0,0,.55));
+      }
+      .roadmap-node-card-inner {
+        fill: rgba(255,255,255,.02); stroke: rgba(255,255,255,.05); stroke-width: 1;
+        transition: fill 420ms ease, stroke 420ms ease;
+      }
+      .roadmap-node-text {
+        font-family: Inter, Heebo, system-ui, sans-serif;
+        font-size: 19px; font-weight: 600;
+        fill: rgba(255,255,255,.4); letter-spacing: .08em;
+        transition: fill 420ms ease;
+      }
+      .roadmap-node.is-active .roadmap-node-card {
+        fill: rgba(10,46,44,.94); stroke: #4ecdc4; stroke-width: 2;
+        filter: drop-shadow(0 0 14px rgba(78,205,196,.55))
+          drop-shadow(0 6px 18px rgba(0,0,0,.6));
+        animation: roadmap-node-pulse 2.6s ease-in-out infinite;
+      }
+      .roadmap-node.is-active .roadmap-node-card-inner {
+        fill: rgba(78,205,196,.08); stroke: rgba(110,224,217,.18);
+      }
+      .roadmap-node.is-active .roadmap-node-text { fill: #fff; }
+      .roadmap-node-halo {
+        opacity: 0; transition: opacity 480ms ease;
+        transform-box: fill-box; transform-origin: center;
+      }
+      .roadmap-node.is-active .roadmap-node-halo {
+        opacity: .55; animation: roadmap-halo-pulse 2.6s ease-in-out infinite;
+      }
+      @keyframes roadmap-node-pulse {
+        0%, 100% { filter: drop-shadow(0 0 10px rgba(78,205,196,.45)) drop-shadow(0 6px 18px rgba(0,0,0,.6)); }
+        50%      { filter: drop-shadow(0 0 20px rgba(110,224,217,.85)) drop-shadow(0 8px 22px rgba(0,0,0,.7)); }
+      }
+      @keyframes roadmap-halo-pulse {
+        0%, 100% { opacity: .4; transform: scale(1); }
+        50%      { opacity: .7; transform: scale(1.18); }
+      }
+      .roadmap-scroll-hint {
+        position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+        display: flex; flex-direction: column; align-items: center; gap: 8px;
+        font-family: Inter, Heebo, system-ui, sans-serif; font-size: 10px;
+        letter-spacing: .4em; text-transform: uppercase;
+        color: rgba(255,255,255,.35); pointer-events: none; z-index: 3;
+      }
+      .roadmap-scroll-hint-line {
+        width: 1px; height: 26px; position: relative; overflow: hidden;
+        background: linear-gradient(to bottom, rgba(255,255,255,.4), transparent);
+      }
+      .roadmap-scroll-hint-line::after {
+        position: absolute; inset: 0; content: "";
+        background: linear-gradient(to bottom, #4ecdc4, transparent);
+        animation: roadmap-scroll-line 1.8s ease-in-out infinite;
+      }
+      @keyframes roadmap-scroll-line {
+        0% { transform: translateY(-100%); opacity: 0; }
+        40% { opacity: 1; }
+        100% { transform: translateY(100%); opacity: 0; }
+      }
+      @media (max-width: 767px) {
+        .roadmap-section { height: 480vh; }
+        .roadmap-texts { min-height: 220px; }
+        .roadmap-svg { max-height: 56vh; width: auto; margin: 0 auto; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .roadmap-section { height: auto; }
+        .roadmap-sticky { position: relative; height: auto; padding: 80px 0; }
+      }
+    </style>
+  </head>
+  <body class="route-home">
+    <header>
+      <div class="container">
+        <a class="logo" href="/" data-route="home"><img class="logo-img" src="assets/logo-callbot-header.png" alt="CALLBOT" width="84" height="72" decoding="async" /></a>
+        <nav>
+          <a href="#testimonials">לקוחות</a><a href="/pricing" data-route="pricing">תמחור</a><a href="#faq">שאלות</a>
+        </nav>
+        <a class="btn" href="#demo">הזמן דמו</a>
+      </div>
+    </header>
+
+    <main class="home">
+      <section class="hero" id="hero">
+        <div class="container">
+          <div class="hero-content">
+            <h1 class="fade" style="animation-delay:80ms">הבוט שלא נותן ללקוחות לחכות</h1>
+            <p class="lead fade" style="animation-delay:160ms">כל שיחה שלא נענית היא ליד שהלך למתחרה. Voice AI AfterHours עונה בשמך, מסכם את השיחה ומעביר לצוות ליד ברור לחזרה.</p>
+            <div class="actions fade" style="animation-delay:240ms"><a class="btn" href="#demo">הזמן דמו של 15 דקות ←</a><a class="btn secondary" href="/pricing" data-route="pricing">ראה תמחור</a></div>
+          </div>
+          <div class="hero-mockup-stage">
+            <div class="hero-mockup-perspective fade" style="animation-delay:420ms">
+              <div class="hero-mockup-tilt mock">
+                <div class="screen">
+                  <div class="chrome"><span class="dot" style="background:#e24b4a"></span><span class="dot" style="background:#f4c95d"></span><span class="dot"></span></div>
+                  <div class="screen-body">
+                    <div><div class="item active">מוסך - תקלה דחופה<br><small>לפני 4 דקות</small></div><div class="item">מרפאה - תיאום תור<br><small>לפני 5 דקות</small></div><div class="item">נדל״ן - דירה למכירה<br><small>לפני 6 דקות</small></div></div>
+                    <div class="panel"><small style="color:var(--lo)">ליד חדש</small><h3>יוסי כהן · תקלה ברכב</h3><p>הלקוח התקשר ב־22:41. הרכב לא מניע, נמצא באזור רמת גן, מבקש חזרה בבוקר מוקדם. הסכים לקבל SMS עם זמני טיפול.</p></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="live-demo" id="live-demo">
+            <div class="live-demo-grid">
+              <div class="live-demo-copy">
+                <h2>שיחה שמרגישה מקומית, לא תאגידית.</h2>
+                <p>במקום סרטון כבד, הדמו מדגים בזמן אמת איך ליד ישראלי נשמע: שאלות קצרות, עברית טבעית וסגירת המשך טיפול בלי לחכות לנציג.</p>
+              </div>
+              <div class="live-chat">
+                <div class="live-chat-head">
+                  <div style="text-align:right">
+                    <div style="font-weight:500">מוסך דרך השלום</div>
+                    <small style="color:var(--lo)">שיחה חיה · 22:47</small>
+                  </div>
+                  <div class="live-badge"><span class="live-dot"></span>Live</div>
+                </div>
+                <div class="live-chat-body" id="live-chat-body"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="roadmap-section" id="roadmap" aria-label="המסע איתנו">
+        <div class="roadmap-section-lead" aria-hidden="true"></div>
+        <div class="roadmap-sticky">
+          <div class="roadmap-ambient" aria-hidden="true"></div>
+          <div class="roadmap-grid" aria-hidden="true"></div>
+          <div class="roadmap-vignette" aria-hidden="true"></div>
+
+          <div class="container roadmap-stage">
+            <div class="roadmap-texts">
+              <div class="roadmap-text-block active" data-stage="0">
+                <p class="roadmap-eyebrow">Stage 01 · אסטרטגיה</p>
+                <h2 class="roadmap-title">מנתחים את העסק שלך</h2>
+                <p class="roadmap-desc">בודקים מתי נופלות שיחות, מה הלקוחות שואלים בשעות עומס ומה ליד טוב נראה אצלך.</p>
+                <div class="roadmap-progress-bar" aria-hidden="true">
+                  <span class="roadmap-progress-tick on"></span>
+                  <span class="roadmap-progress-tick"></span>
+                  <span class="roadmap-progress-tick"></span>
+                  <span class="roadmap-progress-tick"></span>
+                </div>
+              </div>
+              <div class="roadmap-text-block" data-stage="1">
+                <p class="roadmap-eyebrow">Stage 02 · תסריט שיחה</p>
+                <h2 class="roadmap-title">בונים שיחה שנשמעת אנושית</h2>
+                <p class="roadmap-desc">תסריט בעברית טבעית, עם שאלות המשך והובלה רכה לסגירה — בלי להרגיש בוטית.</p>
+                <div class="roadmap-progress-bar" aria-hidden="true">
+                  <span class="roadmap-progress-tick on"></span>
+                  <span class="roadmap-progress-tick on"></span>
+                  <span class="roadmap-progress-tick"></span>
+                  <span class="roadmap-progress-tick"></span>
+                </div>
+              </div>
+              <div class="roadmap-text-block" data-stage="2">
+                <p class="roadmap-eyebrow">Stage 03 · אינטגרציה</p>
+                <h2 class="roadmap-title">מחברים לכלים שלך</h2>
+                <p class="roadmap-desc">CRM, Slack, SMS או webhook — סיכום ליד מסודר נכנס למקום שהצוות באמת רואה.</p>
+                <div class="roadmap-progress-bar" aria-hidden="true">
+                  <span class="roadmap-progress-tick on"></span>
+                  <span class="roadmap-progress-tick on"></span>
+                  <span class="roadmap-progress-tick on"></span>
+                  <span class="roadmap-progress-tick"></span>
+                </div>
+              </div>
+              <div class="roadmap-text-block" data-stage="3">
+                <p class="roadmap-eyebrow">Stage 04 · Live</p>
+                <h2 class="roadmap-title">עולים לאוויר</h2>
+                <p class="roadmap-desc">הבוט עונה במקומך 24/7, ולידים חמים מחכים לחזרה כבר בבוקר שאחרי.</p>
+                <div class="roadmap-progress-bar" aria-hidden="true">
+                  <span class="roadmap-progress-tick on"></span>
+                  <span class="roadmap-progress-tick on"></span>
+                  <span class="roadmap-progress-tick on"></span>
+                  <span class="roadmap-progress-tick on"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="roadmap-svg-wrap" dir="ltr">
+              <svg class="roadmap-svg" viewBox="0 0 1240 400" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="roadmap-accent-gradient" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1240" y2="0">
+                    <stop offset="0%" stop-color="#2eb8b0" />
+                    <stop offset="55%" stop-color="#4ecdc4" />
+                    <stop offset="100%" stop-color="#6fe0d9" />
+                  </linearGradient>
+                  <filter id="roadmap-line-glow" x="-100%" y="-100%" width="300%" height="300%">
+                    <feGaussianBlur result="b1" stdDeviation="3.5" />
+                    <feGaussianBlur in="SourceGraphic" result="b2" stdDeviation="10" />
+                    <feMerge>
+                      <feMergeNode in="b2" />
+                      <feMergeNode in="b1" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                  <filter id="roadmap-node-halo" x="-100%" y="-100%" width="300%" height="300%">
+                    <feGaussianBlur stdDeviation="14" />
+                  </filter>
+                </defs>
+
+                <path id="roadmap-path-base" d="" fill="none" stroke="#161616" stroke-width="22" stroke-linecap="round" />
+                <path id="roadmap-path-base-dashed" d="" fill="none" stroke="rgba(255,255,255,.04)" stroke-width="22" stroke-linecap="round" stroke-dasharray="0.5 18" />
+                <path id="roadmap-path-fill" d="" fill="none" stroke="url(#roadmap-accent-gradient)" stroke-width="20" stroke-linecap="round" filter="url(#roadmap-line-glow)" />
+
+                <g id="roadmap-nodes">
+                  <g class="roadmap-node" data-idx="0">
+                    <circle class="roadmap-node-halo" cx="0" cy="0" r="40" fill="#4ecdc4" filter="url(#roadmap-node-halo)" />
+                    <g class="roadmap-node-inner">
+                      <rect class="roadmap-node-card" x="-28" y="-28" width="56" height="56" rx="16" ry="16" />
+                      <rect class="roadmap-node-card-inner" x="-25" y="-25" width="50" height="50" rx="13" ry="13" />
+                      <text class="roadmap-node-text" x="0" y="6" text-anchor="middle">01</text>
+                    </g>
+                  </g>
+                  <g class="roadmap-node" data-idx="1">
+                    <circle class="roadmap-node-halo" cx="0" cy="0" r="40" fill="#4ecdc4" filter="url(#roadmap-node-halo)" />
+                    <g class="roadmap-node-inner">
+                      <rect class="roadmap-node-card" x="-28" y="-28" width="56" height="56" rx="16" ry="16" />
+                      <rect class="roadmap-node-card-inner" x="-25" y="-25" width="50" height="50" rx="13" ry="13" />
+                      <text class="roadmap-node-text" x="0" y="6" text-anchor="middle">02</text>
+                    </g>
+                  </g>
+                  <g class="roadmap-node" data-idx="2">
+                    <circle class="roadmap-node-halo" cx="0" cy="0" r="40" fill="#4ecdc4" filter="url(#roadmap-node-halo)" />
+                    <g class="roadmap-node-inner">
+                      <rect class="roadmap-node-card" x="-28" y="-28" width="56" height="56" rx="16" ry="16" />
+                      <rect class="roadmap-node-card-inner" x="-25" y="-25" width="50" height="50" rx="13" ry="13" />
+                      <text class="roadmap-node-text" x="0" y="6" text-anchor="middle">03</text>
+                    </g>
+                  </g>
+                  <g class="roadmap-node" data-idx="3">
+                    <circle class="roadmap-node-halo" cx="0" cy="0" r="40" fill="#4ecdc4" filter="url(#roadmap-node-halo)" />
+                    <g class="roadmap-node-inner">
+                      <rect class="roadmap-node-card" x="-28" y="-28" width="56" height="56" rx="16" ry="16" />
+                      <rect class="roadmap-node-card-inner" x="-25" y="-25" width="50" height="50" rx="13" ry="13" />
+                      <text class="roadmap-node-text" x="0" y="6" text-anchor="middle">04</text>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <div class="roadmap-scroll-hint" aria-hidden="true">
+            <span>scroll</span>
+            <span class="roadmap-scroll-hint-line"></span>
+          </div>
+        </div>
+      </section>
+
+      <section id="testimonials">
+        <div class="container">
+          <div class="title">
+            <div class="eyebrow">לקוחות</div>
+            <h2>לא KPI קר. שיחות אמיתיות שלא הלכו לאיבוד</h2>
+          </div>
+          <div class="testimonial-wheel" aria-label="קרוסלת עדויות לקוח">
+            <div class="testimonial-wheel-stage">
+              <article class="testimonial-wheel-card active">
+                <p>״עכשיו אני יודע מי התקשר בלילה ומה הוא רצה. בבוקר אני פשוט חוזר ללידים החמים.״</p>
+                <div class="testimonial-person"><h3>אבי לוי</h3><small>בעל מוסך · רכב</small></div>
+              </article>
+              <article class="testimonial-wheel-card next">
+                <p>״מטופלים מקבלים מענה רגוע גם כשהמרפאה סגורה, והצוות מקבל תקציר מסודר.״</p>
+                <div class="testimonial-person"><h3>ד״ר נעמה שחר</h3><small>מנהלת מרפאה · בריאות</small></div>
+              </article>
+              <article class="testimonial-wheel-card hidden-card">
+                <p>״בנדל״ן מהירות תגובה היא הכול. השיחות מהערב כבר לא נופלות בין הכיסאות.״</p>
+                <div class="testimonial-person"><h3>רון מלמד</h3><small>מנהל משרד · נדל״ן</small></div>
+              </article>
+              <article class="testimonial-wheel-card hidden-card">
+                <p>״הלקוחות מקבלים תשובה נעימה גם אחרי שעות הפעילות, ואנחנו פותחים את היום עם סדר עדיפויות ברור.״</p>
+                <div class="testimonial-person"><h3>יעל בן דוד</h3><small>מנהלת שירות · קליניקה</small></div>
+              </article>
+              <article class="testimonial-wheel-card prev">
+                <p>״פעם היינו מגלים פניות רק בבוקר. עכשיו כל בקשה מגיעה מסודרת עם שם, טלפון וסיבת הפנייה.״</p>
+                <div class="testimonial-person"><h3>מיכאל צור</h3><small>בעל עסק · שירותים</small></div>
+              </article>
+              <article class="testimonial-wheel-card hidden-card">
+                <p>״לקוחות מרגישים שמדברים עם נציג אמיתי, ואנחנו מתחילים כל בוקר עם רשימת פניות מסודרת.״</p>
+                <div class="testimonial-person"><h3>שירה אברהם</h3><small>בעלת סלון · יופי</small></div>
+              </article>
+            </div>
+            <div class="testimonial-wheel-dots" aria-hidden="true"></div>
+          </div>
+        </div>
+      </section>
+      <section class="deep" id="demo"><div class="container showcase"><div><div class="eyebrow">דמו קצר, בלי התחייבות</div><h2>תן לנו <span style="color:#9d6fd4">15</span> דקות ונראה לך כמה שיחות אפשר להציל</h2><p>שלב ראשון קצר: שם, טלפון וגודל עסק.</p></div><form class="card form" id="demoForm"><label>שם מלא</label><input required placeholder="מיכל ברק" /><label>טלפון לחזרה</label><input required placeholder="050-1234567" /><label>גודל עסק</label><select><option>1-5 עובדים</option><option>6-20 עובדים</option><option>21-50 עובדים</option></select><button class="btn" style="width:100%">הזמן דמו של 15 דקות ←</button></form></div></section>
+      <section id="faq"><div class="container"><div class="title"><div class="eyebrow">FAQ</div><h2>שאלות לפני שמתחילים</h2></div><div class="card"><h3>האם הבוט באמת מדבר עברית?</h3><p>כן. הזרימה נבנית בעברית ומותאמת לשיחות של עסקים ישראליים.</p></div></div></section>
+    </main>
+
+    <main class="pricing"><section class="hero"><div class="container"><div class="eyebrow">תמחור</div><h1>משלמים לפי שיחות שנענו, לא לפי מושבים במערכת</h1><p class="lead">המודל נועד להיות קרוב לערך האמיתי: כמה לידים לא הלכו לאיבוד אחרי שעות הפעילות.</p></div></section><section><div class="container showcase"><div class="card form"><h2>מחשבון שיחות אבודות</h2><p>כמה שיחות אתה מעריך שאתה מפספס בחודש?</p><input id="range" type="range" min="10" max="300" value="80" /><div class="num"><span id="calls">80</span><span> שיחות</span></div><p>פוטנציאל הכנסה שנשמר: <strong style="color:var(--accent)">₪<span id="money">9,408</span></strong></p></div><div class="grid" style="grid-template-columns:1fr 1fr"><div class="card"><h3>Starter</h3><div class="num">לפי שיחה</div><p>עד 120 שיחות בחודש</p><p>תסריט שיחה אחד</p><a class="btn" href="#demo">בדוק התאמה</a></div><div class="card"><h3>Growth</h3><div class="num">מותאם</div><p>נפח שיחות גמיש</p><p>אינטגרציות מתקדמות</p><a class="btn" href="#demo">הזמן דמו</a></div></div></div></section></main>
+
+    <main class="thanks"><section><div class="container"><div class="mark" style="margin:auto;width:80px;height:80px;border-radius:50%">✓</div><h1>קיבלנו! נחזור אליך תוך 2 שעות</h1><p class="lead">הפרטים נשלחו. עכשיו נבדוק התאמה ראשונית ונחזור עם זמן קצר לדמו.</p><div class="grid" style="margin-top:44px"><div class="card"><h3>קיבלת מייל</h3><p>אישור קצר עם הפרטים שמסרת.</p></div><div class="card"><h3>נציג יצור קשר</h3><p>נשאל כמה שאלות על נפח השיחות.</p></div><div class="card"><h3>הדמו עצמו</h3><p>נראה איך זה נשמע ועובד בעסק שלך.</p></div></div></div></section></main>
+
+    <footer><div class="container"><a class="logo" href="/" data-route="home"><span class="mark">AI</span><span>AI AfterHours<br><small>Voice AI לעסקים ישראליים</small></span></a><span>Privacy · Terms · נגישות</span><span>hello@aiafterhours.co · LinkedIn</span></div></footer>
+    <script>
+      function route(name) {
+        document.body.className = "route-" + name;
+        history.pushState({}, "", name === "home" ? "/" : "/" + name);
+        scrollTo({ top: 0, behavior: "smooth" });
+      }
+      document.querySelectorAll("[data-route]").forEach((link) => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          route(link.dataset.route);
+        });
+      });
+      document.getElementById("demoForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        route("thank-you");
+      });
+      const range = document.getElementById("range");
+      if (range) range.addEventListener("input", () => {
+        document.getElementById("calls").textContent = range.value;
+        document.getElementById("money").textContent = Math.round(range.value * .42 * 280).toLocaleString("he-IL");
+      });
+      if (location.pathname.includes("pricing")) document.body.className = "route-pricing";
+      if (location.pathname.includes("thank-you")) document.body.className = "route-thank-you";
+
+      (function setupTestimonialWheel() {
+        const wheel = document.querySelector(".testimonial-wheel");
+        if (!wheel) return;
+
+        const cards = Array.from(wheel.querySelectorAll(".testimonial-wheel-card"));
+        const dotsWrap = wheel.querySelector(".testimonial-wheel-dots");
+        let active = 0;
+        let timer;
+        let startX = null;
+        let didDrag = false;
+
+        const dots = cards.map((card, index) => {
+          const dot = document.createElement("button");
+          dot.className = "testimonial-wheel-dot";
+          dot.type = "button";
+          dot.setAttribute("aria-label", `עבור לעדות ${index + 1}`);
+          dot.addEventListener("click", () => {
+            setActive(index);
+            restart();
+          });
+          dotsWrap.appendChild(dot);
+          return dot;
+        });
+
+        function positionOf(index) {
+          const raw = index - active;
+          const half = Math.floor(cards.length / 2);
+          if (raw > half) return raw - cards.length;
+          if (raw < -half) return raw + cards.length;
+          return raw;
+        }
+
+        function render() {
+          cards.forEach((card, index) => {
+            const position = positionOf(index);
+            card.classList.remove("active", "prev", "next", "hidden-card");
+            card.setAttribute("aria-hidden", Math.abs(position) > 1 ? "true" : "false");
+            if (position === 0) card.classList.add("active");
+            else if (position === -1) card.classList.add("prev");
+            else if (position === 1) card.classList.add("next");
+            else card.classList.add("hidden-card");
+          });
+          dots.forEach((dot, index) => dot.classList.toggle("active", index === active));
+        }
+
+        function setActive(index) {
+          active = (index + cards.length) % cards.length;
+          render();
+        }
+
+        function next() {
+          setActive(active + 1);
+        }
+
+        function prev() {
+          setActive(active - 1);
+        }
+
+        function restart() {
+          clearInterval(timer);
+          timer = setInterval(next, 2600);
+        }
+
+        cards.forEach((card, index) => {
+          card.addEventListener("click", () => {
+            if (didDrag) return;
+            if (card.classList.contains("prev") || card.classList.contains("next")) {
+              setActive(index);
+              restart();
+            }
+          });
+          card.addEventListener("pointerdown", (event) => {
+            if (card.classList.contains("prev") || card.classList.contains("next")) {
+              event.stopPropagation();
+            }
+          });
+        });
+
+        wheel.addEventListener("pointerdown", (event) => {
+          startX = event.clientX;
+          didDrag = false;
+          wheel.setPointerCapture(event.pointerId);
+        });
+        wheel.addEventListener("pointerup", (event) => {
+          if (wheel.hasPointerCapture(event.pointerId)) {
+            wheel.releasePointerCapture(event.pointerId);
+          }
+          if (startX === null) return;
+          const distance = event.clientX - startX;
+          startX = null;
+          if (Math.abs(distance) > 42) {
+            didDrag = true;
+            distance > 0 ? prev() : next();
+            restart();
+          }
+        });
+        wheel.addEventListener("pointercancel", (event) => {
+          if (wheel.hasPointerCapture(event.pointerId)) {
+            wheel.releasePointerCapture(event.pointerId);
+          }
+          startX = null;
+          didDrag = false;
+        });
+
+        render();
+        restart();
+      })();
+
+      const liveDemo = document.getElementById("live-demo");
+      const liveChatBody = document.getElementById("live-chat-body");
+      if (liveDemo && liveChatBody) {
+        const liveMessages = [
+          { role: "customer", text: "היי, המוסך פתוח מחר בבוקר? נדלקה לי נורה ברכב." },
+          { role: "agent", text: "כן, אפשר לתאם בדיקה. איזה רכב יש לך ומה מספר הטלפון לחזרה?" },
+          { role: "customer", text: "יונדאי i20, 052-444-1890. עדיף לפני 10." },
+          { role: "agent success", text: "מעולה. שריינתי בקשה ל-08:45 ושלחתי למנהל השירות. תקבל אישור ב-SMS." }
+        ];
+        let liveTimers = [];
+        let liveRunning = false;
+
+        const clearLiveTimers = () => {
+          liveTimers.forEach(clearTimeout);
+          liveTimers = [];
+        };
+
+        const scrollLiveChat = () => {
+          requestAnimationFrame(() => {
+            liveChatBody.scrollTo({ top: liveChatBody.scrollHeight, behavior: "smooth" });
+          });
+        };
+
+        const appendTyping = (role) => {
+          const typing = document.createElement("div");
+          typing.className = `live-typing ${role}`;
+          typing.setAttribute("aria-label", "מקליד...");
+          typing.innerHTML = "<span class='live-typing-dot'></span><span class='live-typing-dot'></span><span class='live-typing-dot'></span>";
+          liveChatBody.appendChild(typing);
+          scrollLiveChat();
+          return typing;
+        };
+
+        const appendBubble = (message) => {
+          const bubble = document.createElement("div");
+          bubble.className = `live-bubble ${message.role}`;
+          bubble.textContent = message.text;
+          liveChatBody.appendChild(bubble);
+          scrollLiveChat();
+        };
+
+        const playLiveSequence = () => {
+          clearLiveTimers();
+          liveChatBody.innerHTML = "";
+          let elapsed = 600;
+          liveMessages.forEach((message) => {
+            const role = message.role.startsWith("agent") ? "agent" : "customer";
+            liveTimers.push(setTimeout(() => {
+              appendTyping(role);
+            }, elapsed));
+            elapsed += 1800;
+            liveTimers.push(setTimeout(() => {
+              const typing = liveChatBody.querySelector(".live-typing");
+              if (typing) typing.remove();
+              appendBubble(message);
+            }, elapsed));
+            elapsed += 700;
+          });
+          liveTimers.push(setTimeout(() => {
+            liveChatBody.innerHTML = "";
+            liveTimers.push(setTimeout(() => {
+              if (liveRunning) playLiveSequence();
+            }, 400));
+          }, elapsed + 4500));
+        };
+
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            liveRunning = true;
+            playLiveSequence();
+          } else {
+            liveRunning = false;
+            clearLiveTimers();
+            liveChatBody.innerHTML = "";
+          }
+        }, { threshold: 0.08, rootMargin: "0px 0px -8% 0px" });
+        observer.observe(liveDemo);
+      }
+
+      (function setupRoadmap() {
+        const section = document.querySelector(".roadmap-section");
+        if (!section) return;
+
+        const svg = section.querySelector(".roadmap-svg");
+        const fillPath = section.querySelector("#roadmap-path-fill");
+        const basePath = section.querySelector("#roadmap-path-base");
+        const basePathDashed = section.querySelector("#roadmap-path-base-dashed");
+        const nodes = Array.from(section.querySelectorAll(".roadmap-node"));
+        const textBlocks = Array.from(section.querySelectorAll(".roadmap-text-block"));
+
+        const PATHS = {
+          desktop: {
+            d: "M 80 320 C 280 320 280 80 480 80 C 680 80 680 320 880 320 C 1040 320 1080 200 1160 80",
+            viewBox: "0 0 1240 400",
+            sectionHeight: "440vh"
+          },
+          mobile: {
+            d: "M 200 60 C 60 200 340 320 200 460 C 60 600 340 720 200 860",
+            viewBox: "0 0 400 920",
+            sectionHeight: "480vh"
+          }
+        };
+
+        const thresholds = [0, 0.34, 0.67, 0.985];
+        let pathLength = 0;
+        let displayed = 0;
+        let target = 0;
+        let lastActive = -1;
+        let mode = window.matchMedia("(min-width: 768px)").matches ? "desktop" : "mobile";
+
+        function setupPath() {
+          const config = PATHS[mode];
+          svg.setAttribute("viewBox", config.viewBox);
+          fillPath.setAttribute("d", config.d);
+          basePath.setAttribute("d", config.d);
+          basePathDashed.setAttribute("d", config.d);
+          section.style.height = config.sectionHeight;
+
+          pathLength = fillPath.getTotalLength();
+          fillPath.style.strokeDasharray = pathLength;
+          fillPath.style.strokeDashoffset = pathLength;
+
+          nodes.forEach((node, i) => {
+            const pt = fillPath.getPointAtLength(thresholds[i] * pathLength);
+            node.setAttribute("transform", `translate(${pt.x}, ${pt.y})`);
+          });
+
+          lastActive = -1;
+        }
+
+        function compute() {
+          const rect = section.getBoundingClientRect();
+          const range = section.offsetHeight - window.innerHeight;
+          const scrolled = -rect.top;
+          target = Math.max(0, Math.min(1, scrolled / Math.max(1, range)));
+        }
+
+        function tick() {
+          displayed += (target - displayed) * 0.16;
+          if (Math.abs(target - displayed) < 0.0004) displayed = target;
+
+          if (pathLength > 0) {
+            fillPath.style.strokeDashoffset = pathLength * (1 - displayed);
+          }
+
+          let nextActive = 0;
+          for (let i = 0; i < thresholds.length; i++) {
+            if (displayed >= thresholds[i] - 0.015) nextActive = i;
+          }
+
+          if (nextActive !== lastActive) {
+            lastActive = nextActive;
+            nodes.forEach((n, i) => n.classList.toggle("is-active", i <= nextActive));
+            textBlocks.forEach((b, i) => b.classList.toggle("active", i === nextActive));
+          }
+
+          requestAnimationFrame(tick);
+        }
+
+        setupPath();
+        compute();
+        window.addEventListener("scroll", compute, { passive: true });
+        window.addEventListener("resize", () => {
+          const newMode = window.matchMedia("(min-width: 768px)").matches ? "desktop" : "mobile";
+          if (newMode !== mode) {
+            mode = newMode;
+            setupPath();
+          }
+          compute();
+        });
+        requestAnimationFrame(tick);
+      })();
+    </script>
+  </body>
+</html>
