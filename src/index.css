@@ -2218,10 +2218,16 @@ select {
     padding-top: 1.25rem;
   }
 
+  .live-story-scroll {
+    min-height: 420vh;
+    overflow-anchor: none;
+  }
+
   .live-story-pin {
     align-items: start;
     padding-top: calc(var(--site-header-height) + 0.25rem);
     padding-inline: 1rem;
+    overflow-anchor: none;
   }
 
   .live-demo-layout {
@@ -2290,16 +2296,20 @@ select {
     grid-row: auto;
     width: 100%;
     max-width: min(340px, 92vw);
-    min-height: min(36vh, 260px);
-    height: min(36vh, 260px);
+    min-height: min(68vh, 520px);
+    height: min(68vh, 520px);
     margin-inline: auto;
     flex-shrink: 0;
+    transition: none;
   }
 
   .live-story-visuals[data-active-step="2"] {
-    min-height: min(68vh, 520px);
-    height: min(68vh, 520px);
     max-width: 100%;
+  }
+
+  .live-story-scene-cinematic .live-demo-stage {
+    min-height: 100%;
+    height: 100%;
   }
 
   .live-story-scene {
@@ -2432,7 +2442,8 @@ select {
   }
 
   .live-demo-stage {
-    min-height: 620px;
+    min-height: 100%;
+    height: 100%;
     gap: 1.75rem;
   }
 
@@ -2461,6 +2472,95 @@ select {
     width: auto;
     margin-inline: auto;
   }
+}
+
+.contact-actions--inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.contact-actions--floating {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.contact-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(34, 34, 56, 0.92);
+  color: #9a96b4;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 0 1px rgba(92, 43, 130, 0.12),
+    0 8px 24px rgba(0, 0, 0, 0.35);
+  transition:
+    border-color 200ms ease,
+    color 200ms ease,
+    box-shadow 200ms ease,
+    transform 200ms ease;
+}
+
+.contact-actions--inline .contact-btn {
+  height: 2.75rem;
+  padding-inline: 1.125rem;
+}
+
+.contact-actions--floating .contact-btn {
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+}
+
+.contact-btn:hover {
+  border-color: rgba(78, 205, 196, 0.45);
+  color: #f0eef8;
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px rgba(78, 205, 196, 0.18),
+    0 0 16px rgba(78, 205, 196, 0.22),
+    0 0 24px rgba(92, 43, 130, 0.18),
+    0 10px 28px rgba(0, 0, 0, 0.4);
+}
+
+.contact-btn:active {
+  transform: scale(0.98);
+}
+
+.contact-btn-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  color: #4ecdc4;
+  transition: color 200ms ease;
+}
+
+.contact-actions--floating .contact-btn-icon {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.contact-btn--whatsapp:hover .contact-btn-icon {
+  color: #6fe0d9;
+}
+
+.contact-btn--call:hover .contact-btn-icon {
+  color: #8ef8f2;
 }
 
 @media (prefers-reduced-motion: reduce) {

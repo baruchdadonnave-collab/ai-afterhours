@@ -178,8 +178,25 @@ function useLiveChatLoop(active: boolean) {
 function useStoryProgress(targetRef: RefObject<HTMLDivElement | null>) {
   const [progress, setProgress] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
+  const activeStepRef = useRef(0);
 
   useEffect(() => {
+    const mobileQuery = window.matchMedia("(max-width: 767px)");
+
+    const getMobileStep = (nextProgress: number, currentStep: number) => {
+      const advanceAt = [0.32, 0.65] as const;
+      const retreatAt = [0.24, 0.57] as const;
+      let step = currentStep;
+
+      if (step < STORY_STEPS.length - 1 && nextProgress >= advanceAt[step]) {
+        step += 1;
+      } else if (step > 0 && nextProgress < retreatAt[step - 1]) {
+        step -= 1;
+      }
+
+      return step;
+    };
+
     const update = () => {
       const node = targetRef.current;
       if (!node) return;
@@ -188,16 +205,29 @@ function useStoryProgress(targetRef: RefObject<HTMLDivElement | null>) {
       const scrollable = Math.max(1, rect.height - window.innerHeight);
       const nextProgress = Math.min(1, Math.max(0, -rect.top / scrollable));
       setProgress(nextProgress);
-      setActiveStep(Math.min(STORY_STEPS.length - 1, Math.floor(nextProgress * STORY_STEPS.length)));
+
+      const nextStep = mobileQuery.matches
+        ? getMobileStep(nextProgress, activeStepRef.current)
+        : Math.min(
+            STORY_STEPS.length - 1,
+            Math.floor(nextProgress * STORY_STEPS.length)
+          );
+
+      if (nextStep !== activeStepRef.current) {
+        activeStepRef.current = nextStep;
+        setActiveStep(nextStep);
+      }
     };
 
     update();
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
+    mobileQuery.addEventListener("change", update);
 
     return () => {
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
+      mobileQuery.removeEventListener("change", update);
     };
   }, [targetRef]);
 

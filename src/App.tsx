@@ -38,6 +38,10 @@ import logoCallbot from "@/assets/logo-callbot-header.png";
 
 type Page = "home" | "pricing" | "thank-you";
 
+const FORMSPREE_LEAD_ENDPOINT = "https://formspree.io/f/mbdvzgkp";
+const CONTACT_PHONE = "0587872155";
+const CONTACT_PHONE_INTL = "972587872155";
+
 const navItems = [
   { label: "לקוחות", href: "/#testimonials" },
   { label: "תמחור", href: "/pricing" },
@@ -177,6 +181,7 @@ export default function App() {
         {page === "thank-you" && <ThankYouPage navigate={navigate} />}
       </main>
       <Footer navigate={navigate} />
+      <ContactButtons variant="floating" />
     </div>
   );
 }
@@ -474,6 +479,10 @@ function LandingPage({ navigate }: { navigate: (page: Page) => void }) {
                     ראה תמחור
                   </Button>
                 </div>
+                <ContactButtons
+                  className="animate-fade-up [animation-delay:320ms]"
+                  variant="inline"
+                />
               </div>
 
               <div className="hero-phones animate-fade-up [animation-delay:420ms]">
@@ -674,8 +683,8 @@ function DemoSection({ navigate }: { navigate: (page: Page) => void }) {
             דקות ונראה לך כמה שיחות אפשר להציל
           </h2>
           <p className="mt-5 text-[18px] leading-[1.75] text-muted-foreground">
-            שלב ראשון קצר: שם, טלפון וגודל עסק. אחרי זה נוכל להשלים פרטים
-            נוספים רק אם זה רלוונטי.
+            שלב ראשון קצר: שם, טלפון ומייל. אחרי זה נוכל להשלים פרטים נוספים
+            רק אם זה רלוונטי.
           </p>
         </div>
         <DemoForm onSuccess={() => navigate("thank-you")} />
@@ -893,24 +902,53 @@ function ThankYouPage({ navigate }: { navigate: (page: Page) => void }) {
   );
 }
 
+function isValidEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
 function DemoForm({ onSuccess }: { onSuccess: () => void }) {
   const [submitted, setSubmitted] = useState(false);
   const [attempted, setAttempted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setAttempted(true);
+    setSubmitError(null);
 
     const formData = new FormData(event.currentTarget);
     const name = String(formData.get("name") ?? "").trim();
     const phone = String(formData.get("phone") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
 
-    if (!name || phone.length < 8) return;
+    if (!name || phone.length < 8 || !isValidEmail(email)) return;
 
-    setSubmitted(true);
-    window.setTimeout(() => {
-      onSuccess();
-    }, 600);
+    setSubmitting(true);
+
+    try {
+      const response = await fetch(FORMSPREE_LEAD_ENDPOINT, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name, phone, email })
+      });
+
+      if (!response.ok) {
+        throw new Error("submit_failed");
+      }
+
+      setSubmitted(true);
+      window.setTimeout(() => {
+        onSuccess();
+      }, 600);
+    } catch {
+      setSubmitError("לא הצלחנו לשלוח את הטופס. נסה שוב בעוד רגע.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -950,21 +988,25 @@ function DemoForm({ onSuccess }: { onSuccess: () => void }) {
           />
         </div>
         <div>
-          <Label htmlFor="size">גודל עסק</Label>
-          <select
-            className="h-12 w-full rounded-md border border-white/10 bg-background px-4 py-3 text-foreground transition focus:border-primary/70 focus:outline-none focus:ring-4 focus:ring-primary/15"
-            id="size"
-            name="size"
-          >
-            <option>1-5 עובדים</option>
-            <option>6-20 עובדים</option>
-            <option>21-50 עובדים</option>
-            <option>50+ עובדים</option>
-          </select>
+          <Label htmlFor="email">מייל</Label>
+          <Input
+            autoComplete="email"
+            id="email"
+            invalid={attempted}
+            name="email"
+            placeholder="name@company.co.il"
+            type="email"
+          />
         </div>
-        <Button className="w-full" type="submit">
-          הזמן דמו של 15 דקות <ArrowLeft className="h-4 w-4" />
+        <Button className="w-full" disabled={submitting} type="submit">
+          {submitting ? "שולח..." : "הזמן דמו של 15 דקות"}{" "}
+          {!submitting && <ArrowLeft className="h-4 w-4" />}
         </Button>
+        {submitError && (
+          <p className="text-center text-sm leading-6 text-[#E24B4A]">
+            {submitError}
+          </p>
+        )}
         <p className="text-center text-sm leading-6 text-muted-foreground">
           בלי ספאם. נחזור רק כדי לבדוק התאמה לדמו.
         </p>
@@ -1165,4 +1207,58 @@ function Footer({ navigate }: { navigate: (page: Page) => void }) {
 function scrollToDemo() {
   const element = document.getElementById("demo");
   element?.scrollIntoView({ behavior: "smooth" });
+}
+
+function WhatsAppIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      className={cn("h-4 w-4 shrink-0", className)}
+      fill="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.884 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+    </svg>
+  );
+}
+
+function ContactButtons({
+  variant = "floating",
+  className
+}: {
+  variant?: "inline" | "floating";
+  className?: string;
+}) {
+  const showLabels = variant === "inline";
+
+  return (
+    <div
+      aria-label="יצירת קשר"
+      className={cn(
+        "contact-actions",
+        variant === "floating" && "contact-actions--floating",
+        variant === "inline" && "contact-actions--inline",
+        className
+      )}
+    >
+      <a
+        aria-label={`שלח הודעה בוואטסאפ ל-${CONTACT_PHONE}`}
+        className="contact-btn contact-btn--whatsapp"
+        href={`https://wa.me/${CONTACT_PHONE_INTL}`}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <WhatsAppIcon className="contact-btn-icon" />
+        {showLabels && <span>וואטסאפ</span>}
+      </a>
+      <a
+        aria-label={`התקשר אלינו: ${CONTACT_PHONE}`}
+        className="contact-btn contact-btn--call"
+        href={`tel:+${CONTACT_PHONE_INTL}`}
+      >
+        <Phone className="contact-btn-icon" />
+        {showLabels && <span>התקשר</span>}
+      </a>
+    </div>
+  );
 }
